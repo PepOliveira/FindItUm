@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Requerimento de Retirada</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        body {
+            background: -webkit-linear-gradient(left, #90abce, #B0C4DE); /* Cor de fundo da tela */
+            padding-top: 60px; /* Adiciona espaço acima do conteúdo para a navbar */
+        }
+        /* Estilo da Navbar */
+        .navbar {
+            background-color: #b9cae0 !important; /* Cor da Navbar */
+        }
+        /* Estilo do Menu Lateral */
+        .offcanvas {
+            background-color: #b9cae0 !important; /* Mesma cor da Navbar */
+        }
+        /* Espaçamento do conteúdo */
+        .container-content {
+            margin-top: 20px; /* Espaçamento acima do conteúdo */
+            max-width: 1300px; /* Largura máxima do conteúdo */
+            margin-left: auto; /* Alinha a div à esquerda */
+            margin-right: auto; /* Alinha a div à direita */
+        }
+        .objeto-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px; /* Espaçamento entre a mensagem e as informações do objeto */
+        }
+        .objeto-info img {
+            max-width: 300px;
+            max-height: 300px;
+        }
+        .modal-content {
+            text-align: center;
+        }
+        .modal-footer {
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-dark bg-dark fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Requerimento de Retirada</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Menu</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="objetosPerdidos.html">Objetos perdidos</a>
+                        </li>
+                        <li class="nav-item">
+                            <button type="button" class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                <i class="bi bi-plus-circle-fill"></i> Cadastrar Novo Objeto
+                            </button>
+                        </li>
+                        <li class="nav-item">
+                            <button id="botaoSolicitar" type="button" class="btn btn-primary mt-2">
+                                <i class="bi bi-plus-circle-fill"></i> Solicitações de objetos perdidos
+                            </button>
+                        </li>  
+                        <li class="nav-item">
+                            <button id="botaoRequerimento" type="button" class="btn btn-primary mt-2">
+                                <i class="bi bi-plus-circle-fill"></i> Requerimento de retirada
+                            </button>
+                        </li>  
+                    </ul> 
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Conteúdo da página -->
+    <div class="container container-content">
+        <h1 class="text-center mb-4" style="color: #343a40;">Requerimento de Retirada</h1>
+        <div class="input-group mb-3">
+            <input type="text" id="inputRA" class="form-control" placeholder="Digite o RA" aria-label="Digite o RA" aria-describedby="button-addon2">
+            <button class="btn btn-outline-secondary" type="button" id="button-addon2">Buscar</button>
+        </div>
+        <div class="accordion" id="accordionExample">
+            <!-- O acordeão será preenchido dinamicamente -->
+        </div>
+    </div>
+
+    <!-- Scripts do Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <script>
+        // Função para preencher os acordeões
+        function preencherAcordeoes(requerimentos) {
+            const accordion = document.getElementById('accordionExample');
+            accordion.innerHTML = ''; // Limpa o conteúdo existente antes de adicionar novos itens
+            requerimentos.forEach(item => {
+                const newItem = document.createElement('div');
+                newItem.innerHTML = `
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading${item.id}">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${item.id}" aria-expanded="true" aria-controls="collapse${item.id}">
+                                Requerimento de Retirada - RA: ${item.RA}
+                            </button>
+                        </h2>
+                        <div id="collapse${item.id}" class="accordion-collapse collapse" aria-labelledby="heading${item.id}" data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                <h2>Informações do Objeto</h2>
+                                <div class="objeto-info">
+                                    <div>
+                                        <strong>Nome do objeto:</strong> ${item.objeto}<br>
+                                        <strong>Cor do objeto:</strong> ${item.cor}<br>
+                                        <strong>Onde:</strong> ${item.onde}<br>
+                                        <strong>Período:</strong> ${item.periodo}<br>
+                                        <strong>Quem:</strong> ${item.quem}<br>
+                                    </div>
+                                    <img src="${item.imagem}" alt="Imagem do Objeto">
+                                </div>
+                                <p class="mt-3">Este objeto acabou de ser retirado. Deseja excluir do site ou guardá-lo em um banco de dados interno?</p>
+                                <div class="d-grid gap-2 mt-3">
+                                    <button class="btn btn-danger" type="button" onclick="excluirObjeto('${item.id}')">Excluir</button>
+                                    <button class="btn btn-success" type="button" data-bs-toggle="modal" data-bs-target="#guardarModal">Guardar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                accordion.appendChild(newItem);
+            });
+        }
+
+        // Função para buscar os requerimentos conforme o RA
+        function buscarRequerimentos(ra) {
+            fetch('https://664008c7a7500fcf1a9cefe3.mockapi.io/L2/LoginDeUsuario')
+            .then(response => response.json())
+            .then(data => {
+                const filteredRequerimentos = data.filter(item => item.RA.includes(ra));
+                preencherAcordeoes(filteredRequerimentos);
+            })
+            .catch(error => console.error('Erro ao buscar os requerimentos:', error));
+        }
+
+        // Atualiza os requerimentos ao carregar a página
+        buscarRequerimentos('');
+
+        // Adiciona o evento de digitação na barra de pesquisa
+        document.getElementById('inputRA').addEventListener('input', function(event) {
+            const ra = event.target.value;
+            buscarRequerimentos(ra);
+        });
+
+        // Função para excluir um objeto da API
+        function excluirObjeto(id) {
+            fetch(`https://664008c7a7500fcf1a9cefe3.mockapi.io/L2/LoginDeUsuario/${id}`, {
+                method: 'DELETE',
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Atualiza os requerimentos após a exclusão
+                    buscarRequerimentos(document.getElementById('inputRA').value);
+                } else {
+                    console.error('Erro ao excluir o objeto:', response.statusText);
+                }
+            })
+            .catch(error => console.error('Erro ao excluir o objeto:', error));
+        }
+        document.getElementById('botaoSolicitar').addEventListener('click', function() {
+            window.location.href = 'solicitacao.html';
+        });
+        document.getElementById('botaoRequerimento').addEventListener('click', function() {
+    window.location.href = 'requerimento.html';
+});
+    </script>
+</body>
+</html>

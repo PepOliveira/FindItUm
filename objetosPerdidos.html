@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Achados e Perdidos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous" defer></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        body {
+            background: -webkit-linear-gradient(left, #90abce, #B0C4DE); /* Cor de fundo da tela */
+        }
+        /* Estilo da Navbar */
+        .navbar {
+            background-color: #b9cae0 !important; /* Cor da Navbar */
+        }
+        /* Estilo do Menu Lateral */
+        .offcanvas {
+            background-color: #b9cae0 !important; /* Mesma cor da Navbar */
+        }
+    </style>
+</head>
+<body onload="carregarDados()" class="pt-5">
+    <!-- Navbar -->
+    <nav class="navbar navbar-dark bg-dark fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Página de Objetos Perdidos</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Menu</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                        <li class="nav-item">
+                            <a class="nav-link" href="perfil.html">Meu perfil</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="objetosPerdidos.html">Objetos perdidos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="perdiUmObjeto.html">Perdi um objeto</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Contate a secretaria
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-dark">
+                                <li><a class="dropdown-item" href="#">Email: secretaria@facens</a></li>
+                                <li><a class="dropdown-item" href="#">Telefone: (15) 961487-4565</a></li>
+                                <li><a class="dropdown-item" href="#">Telefone: (15) 961487-4565</a></li>
+                            </ul>
+                        </li>
+                        <!-- Botão de cadastrar novo objeto -->
+                        <li class="nav-item">
+                            <button id="botaoCadastrar" type="button" class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#exampleModal" style="display: none;">
+                                <i class="bi bi-plus-circle-fill"></i> Cadastrar Novo Objeto
+                            </button>
+                        </li>
+                        <!-- Botão de solicitações de objetos perdidos -->
+                        <li class="nav-item">
+                            <button id="botaoSolicitar" type="button" class="btn btn-primary mt-2">
+                                <i class="bi bi-plus-circle-fill"></i> Solicitações de objetos perdidos
+                            </button>
+                        </li>  
+                        <li class="nav-item">
+                            <button id="botaoRequerimento" type="button" class="btn btn-primary mt-2">
+                                <i class="bi bi-plus-circle-fill"></i> Requerimento de retirada
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <div class="row mt-3">
+            <div class="col-12">
+                <div id="liveAlertPlaceholder"></div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-sm-10">
+                    <div class="mb-xxl-5 text-center">
+                        <h1 class="featurette-heading" style="color: #343a40;" style="white-space: nowrap;">Pesquise o Objeto Perdido</h1>
+                        <div class="input-group ms-lg-5 mt-3">
+                            <input type="text" class="form-control w-250" id="pesquisar" placeholder="Aqui você pode pesquisar por período, cor, nome e etc">
+                            <button class="btn btn-secondary" type="button" onclick="pesquisaObjeto(event)"><i class="bi bi-search"></i> Pesquisar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <div class="row justify-content-center">
+                <div class="row row-cols-1 row-cols-md-3 g-4" id="card-container">
+                    <!-- Aqui os cards serão preenchidos com os dados -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Cadastro Novo Objeto</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="cadImagem" class="form-label">Imagem:</label>
+                        <input type="text" class="form-control" id="cadImagem" placeholder="Cole a URL da imagem aqui">
+                    </div>
+                    <div class="mb-3">
+                        <label for="cadObjeto" class="form-label">Objeto :</label>
+                        <input type="text" class="form-control" id="cadObjeto" placeholder="Digite o nome do objeto">
+                    </div>
+                    <div class="mb-3">
+                        <label for="cadCor" class="form-label">Cor :</label>
+                        <input type="text" class="form-control" id="cadCor" placeholder="Digite a cor">
+                    </div>
+                    <div class="mb-3">
+                        <label for="cadPeriodo" class="form-label">Périodo :</label>
+                        <input type="text" class="form-control" id="cadPeriodo" placeholder="Qual período foi encontrado">
+                    </div>
+                    <div class="mb-3">
+                        <label for="cadOnde" class="form-label">Onde foi achado :</label>
+                        <input type="text" class="form-control" id="cadOnde" placeholder="Onde foi encontrado">
+                    </div>
+                    <div class="mb-3">
+                        <label for="cadQuem" class="form-label">RA do aluno que achou :</label>
+                        <input type="text" class="form-control" id="cadQuem" placeholder="Quem encontrou">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="salvarObjeto(event)">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+<div class="modal fade" id="requisicaoModal" tabindex="-1" aria-labelledby="requisicaoModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="requisicaoModalLabel">Requerimento de Retirada</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Se esse objeto for realmente seu, nos informe seu RA e depois clique no botão para enviar o requerimento. Após fazer isso, você poderá ir até a secretaria da faculdade e retirar seu pertence.</p>
+                <div class="mb-3">
+                    <label for="inputRA" class="form-label">RA:</label>
+                    <input type="text" class="form-control" id="inputRA" placeholder="Digite seu RA">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                <button type="button" class="btn btn-primary" onclick="enviarRequerimento()">Enviar Requerimento</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script>
+        let objetos = [];
+
+        function carregarDados() {
+            const url = 'https://664008c7a7500fcf1a9cefe3.mockapi.io/L2/LoginDeUsuario';
+            fetch(url)
+                .then(resposta => resposta.json())
+                .then(dados => {
+                    objetos = dados;
+                    montaTela(objetos);
+                })
+                .catch(error => console.error('Erro ao carregar dados:', error));
+        }
+
+        function montaTela(objetos) {
+            let cardContainer = document.querySelector('#card-container');
+            cardContainer.innerHTML = '';
+            objetos.forEach((element, index) => {
+                let card = `
+                <div class="col-md-4 mb-4">
+                    <div class="card" style="width: 18rem;">
+                        <img src="${element.imagem}" class="card-img-top" alt="Imagem do objeto">
+                        <div class="card-body d-flex flex-column justify-content-between">
+                            <h5 class="card-title">${element.objeto}</h5>
+                            <p class="card-text">Detalhes do objeto encontrado:</p>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item"><strong>Cor:</strong> ${element.cor}</li>
+                                <li class="list-group-item"><strong>Onde:</strong> ${element.onde}</li>
+                                <li class="list-group-item"><strong>Período:</strong> ${element.periodo}</li>
+                                <li class="list-group-item"><strong>Quem:</strong> ${element.quem}</li>
+                            </ul>
+                            <div class="card-body text-center">
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#requisicaoModal" onclick="setActiveButton(${index})">Esse objeto é meu</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                `;
+                cardContainer.innerHTML += card;
+            });
+        }
+
+        function pesquisaObjeto(event) {
+            event.preventDefault();
+            let texto = document.querySelector('#pesquisar').value;
+            let objetosSelecionados = objetos.filter(
+                x => x.objeto.includes(texto) || x.cor.includes(texto) || x.onde.includes(texto) || x.periodo.includes(texto)
+            );
+            montaTela(objetosSelecionados);
+        }
+
+        function salvarObjeto(event) {
+            event.preventDefault();
+            let objeto = document.querySelector('#cadObjeto').value;
+            let cor = document.querySelector('#cadCor').value;
+            let onde = document.querySelector('#cadOnde').value;
+            let periodo = document.querySelector('#cadPeriodo').value;
+            let quem = document.querySelector('#cadQuem').value;
+            let imagem = document.querySelector('#cadImagem').value; // Pegar a URL da imagem do campo de texto
+            let obj = {
+                objeto,
+                cor,
+                onde,
+                periodo,
+                quem,
+                imagem
+            };
+            const url = 'https://664008c7a7500fcf1a9cefe3.mockapi.io/L2/LoginDeUsuario';
+            fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(obj)
+                })
+                .then(resposta => resposta.json())
+                .then(() => {
+                    carregarDados();
+                    appendAlert('Salvo com sucesso!', 'success');
+                })
+                .catch(error => {
+                    console.error('Erro ao salvar objeto:', error);
+                    appendAlert('Erro ao salvar objeto.', 'danger');
+                });
+        }
+
+        const alertPlaceholder = document.getElementById('liveAlertPlaceholder');
+        const appendAlert = (message, type) => {
+            const wrapper = document.createElement('div');
+            wrapper.innerHTML = [
+                `<div class="alert alert-${type} alert-dismissible" role="alert">`,
+                `   <div>${message}</div>`,
+                '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+                '</div>'
+            ].join('');
+            alertPlaceholder.append(wrapper);
+        };
+
+        const usuarioLogado = { email: 'adm@gmail.com' };
+        if (usuarioLogado.email === 'adm@gmail.com') {
+            document.querySelector('#botaoCadastrar').style.display = 'block';
+            document.querySelector('#botaoSolicitar').style.display = 'block';
+        }
+        document.getElementById('botaoSolicitar').addEventListener('click', function() {
+            window.location.href = 'solicitacao.html';
+        });
+        document.getElementById('botaoRequerimento').addEventListener('click', function() {
+            window.location.href = 'requerimento.html';
+        });
+
+        // Variável global para armazenar o índice do objeto selecionado
+        let selectedObjectIndex = -1;
+
+        function setActiveButton(index) {
+            selectedObjectIndex = index;
+        }
+
+        function enviarRequerimento() {
+            let ra = document.querySelector('#inputRA').value;
+
+            if (selectedObjectIndex !== -1) {
+                const objetoId = objetos[selectedObjectIndex].id;
+                const url = `https://664008c7a7500fcf1a9cefe3.mockapi.io/L2/LoginDeUsuario/${objetoId}`;
+                fetch(url, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ RA: ra }) // Certifique-se de que o RA está sendo enviado corretamente aqui
+                })
+                .then(resposta => {
+                    if (resposta.ok) {
+                        const modal = document.getElementById('requisicaoModal');
+                        const modalInstance = bootstrap.Modal.getInstance(modal);
+                        modalInstance.hide();
+                        mostrarAlerta('Requerimento enviado com sucesso!', 'success');
+                    } else {
+                        mostrarAlerta('Erro ao enviar requerimento.', 'danger');
+                    }
+                    return resposta.json();
+                })
+                .then(() => {
+                    carregarDados();
+                })
+                .catch(error => {
+                    console.error('Erro ao enviar requerimento:', error);
+                    mostrarAlerta('Erro ao enviar requerimento.', 'danger');
+                });
+            } else {
+                console.error('Erro ao encontrar o card correspondente.');
+                mostrarAlerta('Erro ao encontrar o card correspondente.', 'danger');
+            }
+        }
+
+        function mostrarAlerta(mensagem, tipo) {
+            const alertPlaceholder = document.getElementById('liveAlertPlaceholder');
+            const wrapper = document.createElement('div');
+            wrapper.innerHTML = `
+                <div class="alert alert-${tipo} alert-dismissible" role="alert">
+                    <div>${mensagem}</div>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            `;
+            alertPlaceholder.appendChild(wrapper);
+        }
+
+        // Adicionando evento ao modal para limpar o campo de entrada quando estiver escondido
+        const modal = document.getElementById('requisicaoModal');
+        modal.addEventListener('hidden.bs.modal', function () {
+            document.getElementById('inputRA').value = ''; // Limpar o campo de entrada do RA
+        });
+    </script>
+</body>
+</html>

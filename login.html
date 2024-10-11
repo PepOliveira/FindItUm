@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tela de Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
+    <style>
+    /* Espaçamento entre os itens da lista na navbar */
+    .navbar-nav .nav-item {
+        margin-right: 100px; /* Adiciona margem direita para separar os itens */
+    }
+    body {
+        background: -webkit-linear-gradient(left, #90abce, #B0C4DE);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        padding-top: 56px; /* Altura da navbar */
+    }
+    .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        background: -webkit-linear-gradient(left, #b9cae0, #b9cae0);
+        border-radius: 0 0 10px 10px;
+    }
+    .navbar .navbar-brand, .navbar-nav .nav-link {
+        color: #fff !important; /* Cor do texto */
+    }
+    .navbar .navbar-brand:hover, .navbar-nav .nav-link:hover {
+        color: #f8f9fa !important; /* Cor do texto ao passar o mouse */
+    }
+    /* Centraliza a lista da navbar */
+    .navbar-nav {
+        margin: auto;
+        display: flex;
+        align-items: center;
+    }
+    .navbar {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+    .navbar-nav {
+        width: auto;
+    }
+    body {
+        background-color:#b9cae0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        padding-top: 56px; /* Altura da navbar */
+    }
+    .login-container {
+        background: #b9cae0;
+        padding: 2.5rem;
+        border-radius: 15px; /* Aumenta o arredondamento das bordas */
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 450px; /* Aumenta o tamanho do container */
+    }
+    .login-container img {
+        display: block;
+        margin: 0 auto 1.5rem;
+        width: 100px;
+    }
+    .login-container h1 {
+        margin-bottom: 1.5rem;
+        font-size: 1.5rem;
+        color: #343a40;
+        text-align: center;
+    }
+    .login-container .form-group {
+        margin-bottom: 1rem;
+    }
+    .login-container .btn-primary {
+        width: 100%;
+    }
+    .login-container .extra-links {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 1rem;
+    }
+    .login-container .extra-links a {
+        color: #007bff;
+        text-decoration: none;
+    }
+    .login-container .extra-links a:hover {
+        text-decoration: underline;
+    }
+    .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        background-color: #b9cae0 /* Cor de fundo da navbar */
+    }
+    .navbar .navbar-brand, .navbar-nav .nav-link {
+        color: #fff !important; /* Cor do texto */
+    }
+    .navbar .navbar-brand:hover, .navbar-nav .nav-link:hover {
+        color: #f8f9fa !important; /* Cor do texto ao passar o mouse */
+    }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <img src="imagem/FindIT!.png" alt="Logo">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="home.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="login.html">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="cadastre-se.html">Cadastre-se</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="sobre.html">Sobre</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="login-container">
+        <img src="imagem/comercial.png" alt="Logo">
+        <h1>Login</h1>
+        <form id="login-form">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" placeholder="Digite seu email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Senha</label>
+                <input type="password" class="form-control" id="password" placeholder="Digite sua senha" required>
+            </div>
+            <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" id="remember">
+                <label class="form-check-label" for="remember">Lembrar de mim</label>
+            </div>
+            <button type="submit" class="btn btn-primary">Entrar</button>
+            <div class="extra-links">
+                <a href="#">Esqueceu a senha?</a>
+                <a href="cadastre-se.html">Cadastrar-se</a>
+            </div>
+        </form>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script>
+        document.getElementById('login-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            var email = document.getElementById('email').value;
+            var senha = document.getElementById('password').value;
+
+            if (!email || !senha) {
+                showAlert('Por favor, preencha todos os campos.', 'danger');
+                return;
+            }
+
+            fetch('https://66529770813d78e6d6d5d4e8.mockapi.io/users?email=' + email + '&senha=' + senha)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Erro ao fazer login. Verifique suas credenciais e tente novamente.');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.length > 0) {
+                    // Verifica se o usuário é administrador
+                    if (email === 'adm@gmail.com' && senha === 'adm') {
+                        // Redireciona para a página de objetos perdidos
+                        window.location.href = "objetosPerdidos.html";
+                    } else {
+                        // Redireciona para a página de perfil do usuário comum
+                        window.location.href = "perfil.html?id=" + data[0].id;
+                    }
+                } else {
+                    throw new Error('Erro ao fazer login. Verifique suas credenciais e tente novamente.');
+                }
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                showAlert(error.message, 'danger');
+            });
+        });
+
+        function showAlert(message, type) {
+            var alertDiv = document.createElement('div');
+            alertDiv.classList.add('alert', 'alert-' + type, 'mt-3');
+            alertDiv.setAttribute('role', 'alert');
+            alertDiv.textContent = message;
+
+            var container = document.querySelector('.login-container');
+            container.appendChild(alertDiv);
+
+            setTimeout(function() {
+                alertDiv.remove();
+            }, 5000);
+        }
+    </script>
+</body>
+</html>

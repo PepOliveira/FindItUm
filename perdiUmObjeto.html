@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perdi um Objeto</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        body {
+            background: -webkit-linear-gradient(left, #90abce, #B0C4DE); /* Cor de fundo da tela */
+            padding-top: 60px; /* Adiciona espaço acima do conteúdo para a navbar */
+       }
+       /* Estilo da Navbar */
+       .navbar {
+           background-color: #b9cae0 !important; /* Cor da Navbar */
+       }
+       /* Estilo do Menu Lateral */
+       .offcanvas {
+           background-color: #b9cae0 !important; /* Mesma cor da Navbar */
+       }
+       /* Espaçamento do conteúdo */
+       .container {
+           margin-top: 20px; /* Espaçamento acima do conteúdo */
+       }
+   </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-dark bg-dark fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Perdi um Objeto</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Menu</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="objetosPerdidos.html">Objetos perdidos</a>
+                        </li>
+                        <li class="nav-item">
+                            <button id="botaoNovo" type="button" class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                <i class="bi bi-plus-circle-fill"></i> Cadastrar Novo Objeto
+                            </button>
+                        </li>
+                        <li class="nav-item">
+                            <button id="botaoSolicitar" type="button" class="btn btn-primary mt-2">
+                                <i class="bi bi-plus-circle-fill"></i> Solicitações de objetos perdidos
+                            </button>
+                        </li>  
+                        <li class="nav-item">
+                            <button id="botaoRequerimento" type="button" class="btn btn-primary mt-2">
+                                <i class="bi bi-plus-circle-fill"></i> Requerimento de retirada
+                            </button>
+                        </li>  
+                    </ul> 
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container text-white" >
+        <h1  style="color: #343a40;">Faça uma Solicitação</h1>
+        <form id="solicitarObjetoForm">
+            <div class="mb-3">
+                <label for="nome" class="form-label">Nome do objeto</label>
+                <input type="text" class="form-control" id="nome" placeholder="Digite seu nome" required>
+            </div>
+            <div class="mb-3">
+                <label for="cor" class="form-label">Cor</label>
+                <input type="text" class="form-control" id="cor" placeholder="Digite a cor do objeto" required>
+            </div>
+            <div class="mb-3">
+                <label for="periodo" class="form-label">Período</label>
+                <input type="text" class="form-control" id="periodo" placeholder="Digite o período" required>
+            </div>
+            <div class="mb-3">
+                <label for="data" class="form-label">Data</label>
+                <input type="date" class="form-control" id="data" required>
+            </div>
+            <div class="mb-3">
+                <label for="onde" class="form-label">Onde</label>
+                <input type="text" class="form-control" id="onde" placeholder="Digite onde perdeu o objeto" required>
+            </div>
+            <div class="mb-3">
+                <label for="mensagem" class="form-label">Mensagem</label>
+                <textarea class="form-control" id="mensagem" rows="3" placeholder="Descreva o objeto perdido"></textarea>
+            </div>
+            <div class="container mt-5 text-white d-flex flex-column align-items-center"> <!-- Adicionado classe "d-flex flex-column align-items-center" para centralizar o conteúdo -->
+                <h6 class="text-center">Aqui você enviará uma mensagem para a secretaria. Se por acaso encontrarmos objetos semelhantes com as descrições que você enviou, iremos enviar uma mensagem para você pelo seu WhatsApp!</h6> <!-- Adicionado classe "text-center" para centralizar o texto -->
+                
+            
+            </div>
+            <div class="container mt-3 text-center"> <!-- Adicionado classe "text-center" para centralizar o botão -->
+                <button type="submit" class="btn btn-primary">Enviar Solicitação</button>
+            </div>
+    </form> <!-- Fechamento da tag form -->
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script>
+        document.getElementById('solicitarObjetoForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            var nome = document.getElementById('nome').value;
+            var cor = document.getElementById('cor').value;
+            var periodo = document.getElementById('periodo').value;
+            var data = document.getElementById('data').value;
+            var onde = document.getElementById('onde').value;
+            var mensagem = document.getElementById('mensagem').value;
+
+            if (!nome || !cor || !periodo || !data || !onde || !mensagem) {
+                showAlert('Por favor, preencha todos os campos.', 'danger');
+                return;
+            }
+
+            // Obter detalhes do usuário logado
+            var usuarioLogado = {
+                nome: "Usuário Teste", // Aqui você substituirá pelo nome do usuário logado
+                ra: "123456", // Aqui você substituirá pelo RA do usuário logado
+                email: "usuario@teste.com" // Aqui você substituirá pelo email do usuário logado
+            };
+
+            var objetoPerdido = {
+                nome: nome,
+                cor: cor,
+                periodo: periodo,
+                data: data,
+                onde: onde,
+                mensagem: mensagem,
+                usuario: usuarioLogado // Incluindo os detalhes do usuário logado na solicitação
+            };
+
+            fetch('https://665a64c3003609eda45dcd26.mockapi.io/conteudo', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(objetoPerdido),
+            })
+            .then(response => {
+                if (response.ok) {
+                    showAlert('Solicitação enviada com sucesso!', 'success');
+                    document.getElementById('solicitarObjetoForm').reset();
+                } else {
+                    throw new Error('Erro ao enviar solicitação.');
+                }
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                showAlert('Erro ao enviar solicitação. Por favor, tente novamente.', 'danger');
+            });
+        });
+
+        function showAlert(message, type) {
+    var alertDiv = document.createElement('div');
+    alertDiv.classList.add('alert', 'alert-' + type, 'mt-3');
+    alertDiv.setAttribute('role', 'alert');
+    
+    if (type === 'success') {
+        alertDiv.textContent = "Solicitação enviada com sucesso! Ao encontrar seu objeto perdido, entraremos em contato o mais rapidamente possível.";
+    } else {
+        alertDiv.textContent = message;
+    }
+
+    var container = document.querySelector('.container');
+    container.appendChild(alertDiv);
+
+    setTimeout(function() {
+        alertDiv.remove();
+    }, 5000);
+}
+    </script>
+</body>
+</html>
